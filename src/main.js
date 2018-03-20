@@ -11,6 +11,15 @@ const router = new VueRouter({
   mode:'history'
 })
 
+// router.beforeEach((to,from,next)=>{
+//   if(to.path== '/login' || to.path=='/register'){
+//     next();
+//   }else{
+//     alert('请先登录!');
+//     next('/login');
+//   }
+// })
+
 
 new Vue({
   el: '#app',
