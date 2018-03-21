@@ -5,6 +5,20 @@
     </div>
     <div class="container">
       <router-view></router-view>
+      <router-view></router-view>
+    </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-12 col-md-4">
+          <router-view name="orderingGuide"></router-view>
+        </div>
+        <div class="col-sm-12 col-md-4">
+          <router-view name="Delivery"></router-view>
+        </div>
+        <div class="col-sm-12 col-md-4">
+          <router-view name="History"></router-view>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -13,7 +27,7 @@
   import header from './components/Header.vue'
 
   export default {
-    name:"App",
+    name: "App",
     components: {appHeader: header}
   }
 </script>
