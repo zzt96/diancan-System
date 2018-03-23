@@ -1,5 +1,5 @@
 
-Vue学习  
+# Vue学习   
 根据教学视频，建立一个pizza的在线点餐系统
 ## 实现功能
 创建组件：  
@@ -50,7 +50,11 @@ const app = new Vue({
   router
 }).$mount('#app')
 ```
-9. 现在可以使用路由啦，在要用路由的地方写上router-link标签，里面的to="here is path"写上路径，然后在使用这个router-link标签的时候，router就回帮你找到与此路径匹配的component，（在routes里找啊）然后渲染到router-view（子组件）或者跳到另一个页面，详细的代码贴在下面代码块里面。
+9. 现在可以使用路由啦，在要用路由的地方写上router-link标签，里面的to="here is path"写上路径，然后在使用这个router-link标签的时候，router就回帮你找到与此路径匹配的component，（在routes里找啊）然后渲染到router-view（子组件）或者跳到另一个页面，比如：
+```
+<router-link :to="{'/homeLink'}" class="nav-link">主页</router-link>
+```
+关于路由设置的详细的代码到main.js(router的引用和注入根组件)以及routes.js(一组route配置的集合)里去看
 ## 代码块
 
 ## NUXT路由配置
