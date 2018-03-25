@@ -55,6 +55,20 @@ const app = new Vue({
 <router-link :to="{'/homeLink'}" class="nav-link">主页</router-link>
 ```
 关于路由设置的详细的代码到main.js(router的引用和注入根组件)以及routes.js(一组route配置的集合)里去看
+
+## 补充：路由守卫
+ path: '/admin', name: 'adminLink', component: Admin,
+    // beforeEnter: (to, from, next) => {
+    //路由独享守卫
+    // alert('非登陆不能访问');
+    // next(false)
+    //   if (to.path == '/login' || to.path == '/register') {
+    //     next();
+    //   } else {
+    //     alert('请先登录!');
+    //     next('/login');
+    //   }
+    // }
 ## 代码块
 
 ## NUXT路由配置
