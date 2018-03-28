@@ -62,19 +62,19 @@ const app = new Vue({
 如：tag="li"则将其设定为li标签  
 tag="tr"则将其设定为tr标签  
 #### redirect
-routes中重定向，设定一个路由：{path:'*',redirect:'/'} *表示所有，如果没有匹配到上面其他的路由，则path会导向到这个路由上，redirct会将其重定向至/的位置
-> ps.router-link :to="homelink"即为使用动态属性，  
-> 一般在data中赋予homelink值
+routes中重定向，设定一个路由：{path:'*',redirect:'/'} *表示所有，如果没有匹配到上面其他的路由，则path会导向到这个路由上，redirct会将其重定向至/的位置  
+> ps.router-link :to="homelink"即为使用动态属性，   
+> 一般在data中赋予homelink值  
 
 ### 路由name属性
-1. 给一个路由取个名字（menuLink）{path: '/menu', name: 'menuLink', component: Menu},
-2. 使用：<router-link :to="{name: 'menuLink'}">
-3. 注意to前面的冒号（属性绑定v-model）以及name属性是用花括号括起来的
-4. 跳转到 '/menu'这个路径
+1. 给一个路由取个名字（menuLink）{path: '/menu', name: 'menuLink', component: Menu},  
+2. 使用：<router-link :to="{name: 'menuLink'}">  
+3. 注意to前面的冒号（属性绑定v-model）以及name属性是用花括号括起来的  
+4. 跳转到 '/menu'这个路径  
 
 ### 二级三级路由
-children :[]属性中写，对应的路由
-<router-view></router-view>显示子组件
+children :[]属性中写对应的路由  
+<router-view></router-view>显示子组件  
 
 ## 补充：路由守卫
 ```
