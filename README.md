@@ -56,19 +56,44 @@ const app = new Vue({
 ```
 关于路由设置的详细的代码到main.js(router的引用和注入根组件)以及routes.js(一组route配置的集合)里去看
 
+### 路由小细节（redirect和tag）
+#### tag
+<router-link>默认的是嵌套成a标签，如果想要自定义其标签形式，则使用tag：  
+如：tag="li"则将其设定为li标签  
+tag="tr"则将其设定为tr标签  
+#### redirect
+routes中重定向，设定一个路由：{path:'*',redirect:'/'} *表示所有，如果没有匹配到上面其他的路由，则path会导向到这个路由上，redirct会将其重定向至/的位置
+> ps.router-link :to="homelink"即为使用动态属性，  
+> 一般在data中赋予homelink值
+
+### 路由name属性
+1. 给一个路由取个名字（menuLink）{path: '/menu', name: 'menuLink', component: Menu},
+2. 使用：<router-link :to="{name: 'menuLink'}">
+3. 注意to前面的冒号（属性绑定v-model）以及name属性是用花括号括起来的
+4. 跳转到 '/menu'这个路径
+
+### 二级三级路由
+children :[]属性中写，对应的路由
+<router-view></router-view>显示子组件
+
 ## 补充：路由守卫
+```
+//这一行代码在进入之前会提示非登陆不能访问，如果跳转的路径是去login或者是register，则允许通过（ next() )这个守卫是写在配置路由中，也可以写在组件之内。
+ {
  path: '/admin', name: 'adminLink', component: Admin,
-    // beforeEnter: (to, from, next) => {
+     beforeEnter: (to, from, next) => {
     //路由独享守卫
-    // alert('非登陆不能访问');
-    // next(false)
-    //   if (to.path == '/login' || to.path == '/register') {
-    //     next();
-    //   } else {
-    //     alert('请先登录!');
-    //     next('/login');
-    //   }
-    // }
+     alert('非登陆不能访问');
+     next(false)
+       if (to.path == '/login' || to.path == '/register') {
+         next();
+       } else {
+         alert('请先登录!');
+         next('/login');
+       }
+     }
+     }
+ ```
 ## 代码块
 
 ## NUXT路由配置
