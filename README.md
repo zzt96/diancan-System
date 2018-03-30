@@ -76,24 +76,118 @@ routes中重定向，设定一个路由：{path:'*',redirect:'/'} *表示所有�
 children :[]属性中写对应的路由  
 <router-view></router-view>显示子组件  
 
-## 补充：路由守卫
+### 路由守卫
+#### 全局守卫 each
 ```
-//这一行代码在进入之前会提示非登陆不能访问，如果跳转的路径是去login或者是register，则允许通过（ next() )这个守卫是写在配置路由中，也可以写在组件之内。
- {
- path: '/admin', name: 'adminLink', component: Admin,
-     beforeEnter: (to, from, next) => {
-    //路由独享守卫
-     alert('非登陆不能访问');
-     next(false)
-       if (to.path == '/login' || to.path == '/register') {
-         next();
-       } else {
-         alert('请先登录!');
-         next('/login');
-       }
-     }
-     }
+//to：进入哪个路由里去
+//from： 从那个路由离开
+//next：跳转函数
+//这里的控制语句是指：当跳转路由在登陆或者注册之外的其他页面，则将其引导到登陆页面
+
+router.beforeEach((to,from,next)=>{
+  if(to.path== '/login' || to.path=='/register'){
+    next();
+  }else{
+    alert('请先登录!');
+    next('/login');
+  }
+})
+```
+
+#### 后置钩子
+```
+router.afterEach((to,from)=>{
+alert('请先登录!');
+}
+```
+
+#### 路由独享的守卫
+```
+//在一个route之中进行配置，当进入这个（beforeEnter）这个路由之前进行如下的操作（只对admin这个组件起作用）
+{
+    path: '/admin', name: 'adminLink', component: Admin,
+    beforeEnter: (to, from, next) => {
+    路由独享守卫
+    alert('非登陆不能访问');
+    next(false)//不会进行跳转
+      if (to.path == '/login' || to.path == '/register') {
+        next();
+     } else {
+        alert('请先登录!');
+        next('/login');
+      }
+    }
+  },
+```
+#### 组件内的守卫beforeRouteEnter/beforeRouteLeave
+```
+    //进入组件之前的守卫
+    beforeRouteEnter: (to, from, next) => {
+      // alert("hello " + this.name);//不能得到name（数据渲染之前）
+    //解决办法：使用next回调函数，异步获取数据,当这个方法执行的时候，数据已经渲染完了，所以可以用vm获得姓名
+      next(vm=>{
+        alert("hello " + vm.name)
+      })
+    },
+
+    //离开组件时候的守卫
+    beforeRouteLeave : (to, from, next) => {
+    if(confirm("确定离开嘛？")==true){
+      next();
+    }else{
+      next(false);
+    }
+    }
+```
+注意这里的一个知识点，在守卫中使用this.name想要获得name的数据，却无法正常获取该数据(undefined)；原因是进入这个守卫的时候，数据还没有被渲染出来，所以想要获取这个数据，应该使用next的回调函数异步获取数据。
+```
+next(vm=>{
+        alert("hello " + vm.name)
+      })
+```
+
+### 复用router-view
+1. 在路由中配置
  ```
-## 代码块
+{
+    path: '/', name: 'homeLink', components: {
+      default: Home,
+      'orderingGuide': OrderingGuide,
+      'Delivery': Delivery,
+      'History': History,
+    }
+  },
+```
+注意这里的components表示这里引入的是多个组件，默认组件是Home
+2. 在app.vue中使用
+```
+        <div class="col-sm-12 col-md-4">
+          <router-view name="orderingGuide"></router-view>
+        </div>
+        <div class="col-sm-12 col-md-4">
+          <router-view name="Delivery"></router-view>
+        </div>
+        <div class="col-sm-12 col-md-4">
+          <router-view name="History"></router-view>
+        </div>
+```
+这样每一个组件都有这三个子组件了
+
+### 滚动行为
+```
+写在main.js的router中
+//to：进入哪个路由里去
+//from： 从那个路由离开
+//savedPosition:通过浏览器的前进后退所保留的位置
+scrollBehavior(to,from,savedPosition){
+    // return{x:0,y:100} //100的位置
+  // return{ selector:".btn"}//跳转后停留在第一个btn的位置
+  if(savedPosition){
+    return savedPosition
+  } else{
+    return{x:0,y:0}
+  }
+  }
+```
 
 ## NUXT路由配置
